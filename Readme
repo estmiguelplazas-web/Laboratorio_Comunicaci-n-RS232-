@@ -1,20 +1,20 @@
-#  Práctica - Explorando la Comunicación RS232
+#  Práctica 3 - Explorando la Comunicación RS232
 
 ##  Autores
 
 - Daniel Mateo Alegría Bernate
 - Miguel Ángel Plazas Llanes
-
+  
 Ingeniería de Telecomunicaciones  
 Universidad Militar Nueva Granada
 
 ##  Explorando la Comunicación RS232 con Raspberry Pi Pico 2W
 
-Este repositorio contiene el desarrollo de la práctica de **Comunicaciones Digitales** de Ingeniería de Telecomunicaciones de la Universidad Militar Nueva Granada.
+Este repositorio contiene el desarrollo de la Práctica 3 de Comunicaciones Digitales de Ingeniería de Telecomunicaciones de la Universidad Militar Nueva Granada.
 
-En esta práctica se estudió experimentalmente el funcionamiento de la comunicación serial **RS232** utilizando una **Raspberry Pi Pico 2W**, **MicroPython** y un **osciloscopio digital Tektronix**.
+En esta práctica se estudió experimentalmente la comunicación serial RS232 utilizando una Raspberry Pi Pico 2W, MicroPython y un osciloscopio digital Tektronix.
 
-El análisis permitió estudiar la relación entre la tasa de transmisión y el tiempo de bit, así como identificar la estructura de las tramas seriales mediante la observación de los bits de inicio, datos, paridad y parada.
+Se analizó la relación entre la tasa de transmisión y el tiempo de bit, la estructura de las tramas seriales, el funcionamiento del bit de paridad y la duración de tramas de diferentes longitudes.
 
 ---
 
@@ -22,16 +22,16 @@ El análisis permitió estudiar la relación entre la tasa de transmisión y el 
 
 ### Objetivo general
 
-Analizar experimentalmente el funcionamiento de la comunicación serial RS232 mediante una Raspberry Pi Pico 2W, verificando la relación entre la tasa de transmisión, el tiempo de bit y la estructura de las tramas.
+Analizar experimentalmente el funcionamiento de la comunicación serial RS232, verificando la relación entre la tasa de transmisión, el tiempo de bit y la estructura de las tramas mediante una Raspberry Pi Pico 2W.
 
 ### Objetivos específicos
 
-- Comprobar experimentalmente la relación entre el tiempo de bit y la tasa de transmisión.
+- Comprobar la relación entre el tiempo de bit y la tasa de transmisión.
 - Analizar la estructura de una trama serial RS232.
 - Identificar los bits de inicio, datos, paridad y parada.
-- Comparar los valores teóricos con las mediciones obtenidas mediante el osciloscopio.
+- Comparar los valores teóricos con los valores experimentales.
 - Analizar el efecto del bit de paridad sobre la duración de una trama.
-- Desarrollar habilidades de programación utilizando MicroPython y la interfaz UART de la Raspberry Pi Pico 2W.
+- Desarrollar programas de comunicación serial utilizando MicroPython.
 
 ---
 
@@ -40,12 +40,12 @@ Analizar experimentalmente el funcionamiento de la comunicación serial RS232 me
 | Parámetro | Valor |
 |---|---|
 | Microcontrolador | Raspberry Pi Pico 2W |
-| Interfaz utilizada | UART0 |
-| Pin de transmisión (TX) | Pin 1 |
-| Tierra (GND) | Pin 3 |
-| Tasas de transmisión | 1200, 4800, 9600, 38400, 57600 y 115200 baudios |
-| Carácter utilizado para medición | `Y` |
-| Longitud de trama extendida | 60 caracteres |
+| Interfaz | UART0 |
+| Pin TX | Pin 1 |
+| Pin GND | Pin 3 |
+| Baudios analizados | 1200, 4800, 9600, 38400, 57600 y 115200 |
+| Carácter utilizado | `Y` |
+| Trama extendida | 60 caracteres |
 | Mensaje adicional | `UMNG LIDER EN INGENIERIA EN TELECOMUNCACIONES` |
 | Instrumento | Osciloscopio Tektronix |
 | Lenguaje | MicroPython |
@@ -54,53 +54,46 @@ Analizar experimentalmente el funcionamiento de la comunicación serial RS232 me
 
 ##  Metodología
 
-### 1. Configuración inicial
+### 1. Configuración de la comunicación
 
-Se configuró la interfaz **UART0** de la Raspberry Pi Pico 2W para generar las señales seriales.
+Se configuró la UART0 de la Raspberry Pi Pico 2W para generar las señales seriales.
 
 La conexión utilizada fue:
 
 - **TX:** Pin 1.
 - **GND:** Pin 3.
 
-La señal generada fue conectada al osciloscopio digital Tektronix para observar las características temporales de la transmisión.
+La señal fue conectada al osciloscopio digital Tektronix para observar y medir las características temporales de la transmisión.
 
 ### 2. Medición del tiempo de bit
 
-Se realizó un barrido de diferentes tasas de transmisión:
+Se transmitió el carácter `Y` utilizando diferentes tasas de transmisión:
 
-| Baudios |
+| Tasa de transmisión |
 |---:|
-| 1200 |
-| 4800 |
-| 9600 |
-| 38400 |
-| 57600 |
-| 115200 |
+| 1200 baudios |
+| 4800 baudios |
+| 9600 baudios |
+| 38400 baudios |
+| 57600 baudios |
+| 115200 baudios |
 
-Para cada configuración se transmitió el carácter `Y` y se midió experimentalmente el tiempo correspondiente a un bit.
-
-El valor teórico del tiempo de bit se obtuvo mediante:
+El tiempo de bit teórico se calculó mediante:
 
 $$
 t_b = \frac{1}{B}
 $$
 
-donde:
+donde $B$ corresponde a la tasa de transmisión en baudios.
 
-- $t_b$ corresponde al tiempo de bit.
-- $B$ corresponde a la tasa de transmisión en baudios.
+Los valores obtenidos experimentalmente fueron comparados con los valores teóricos mediante el error porcentual.
 
-Posteriormente, los valores experimentales fueron comparados con los valores teóricos mediante el cálculo del error porcentual.
-
-### 3. Análisis de la estructura de la trama
+### 3. Análisis de la trama
 
 Se transmitieron diferentes caracteres ASCII para identificar los elementos que conforman una trama serial.
 
-Los caracteres utilizados fueron:
-
-| Carácter | Valor Decimal | Valor Hexadecimal | Valor Binario (8 bits) |
-|---|---:|---:|---:|
+| Carácter | Decimal | Hexadecimal | Binario |
+|---|---:|---:|---|
 | `?` | 63 | `0x3F` | `00111111` |
 | `$` | 36 | `0x24` | `00100100` |
 | `B` | 66 | `0x42` | `01000010` |
@@ -110,28 +103,24 @@ Los caracteres utilizados fueron:
 | `Y` | 89 | `0x59` | `01011001` |
 | `@` | 64 | `0x40` | `01000000` |
 
-Se analizaron diferentes configuraciones de transmisión, modificando parámetros como:
+A partir de las señales observadas se identificaron:
 
-- Tasa de transmisión.
-- Número de bits de datos.
-- Tipo de paridad.
-- Número de bits de parada.
+- Bit de inicio.
+- Bits de datos.
+- Bit de paridad.
+- Bits de parada.
 
-A partir de las señales obtenidas en el osciloscopio se identificaron los diferentes segmentos de cada trama.
+### 4. Análisis de la paridad
 
-### 4. Análisis del bit de paridad
+Se realizaron mediciones de tramas con y sin bit de paridad para determinar su efecto sobre la duración total de la transmisión.
 
-Se compararon tramas transmitidas con y sin bit de paridad para determinar su efecto sobre la duración total de la trama.
+La incorporación del bit de paridad representa un tiempo de bit adicional dentro de la trama.
 
-Se verificó experimentalmente que la inclusión del bit de paridad agrega un tiempo de bit adicional a la trama.
+También se verificó que la utilización de paridad par o impar no modifica la duración total, debido a que en ambos casos se transmite un único bit adicional.
 
-También se comprobó que el tipo de paridad, ya sea **par o impar**, no modifica la duración total de la transmisión.
+### 5. Medición de tramas extendidas
 
-### 5. Medición de una trama extendida
-
-Se transmitió una secuencia de **60 caracteres a 600 baudios**, realizando mediciones con y sin bit de paridad.
-
-El objetivo fue determinar experimentalmente la duración total de la trama y compararla con el valor teórico obtenido a partir del número total de bits transmitidos.
+Se transmitió una secuencia de 60 caracteres a **600 baudios**, realizando la medición con y sin bit de paridad.
 
 Adicionalmente, se capturó la señal correspondiente al mensaje:
 
