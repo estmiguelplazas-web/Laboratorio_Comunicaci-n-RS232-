@@ -1,0 +1,82 @@
+# Explorando la Comunicación RS232 con Raspberry Pi Pico 2W
+
+Proyecto de laboratorio del curso **Comunicaciones Digitales** — **Universidad Militar Nueva Granada (UMNG)**, Ingeniería en Telecomunicaciones.
+
+---
+
+## 👥 Autores
+
+- **Miguel Angel Plazas**
+- **Daniel Mateo Alegría Bernate**
+
+**Docente:** José Rúgeles — jose.rugeles@unimilitar.edu.co
+
+---
+
+## 📖 Descripción
+
+Este proyecto estudia el funcionamiento del protocolo de comunicación serial **RS232** mediante el uso de una **Raspberry Pi Pico 2W**, **MicroPython** y un **osciloscopio digital**.
+
+Se analiza experimentalmente la relación entre la **tasa de transmisión (baudios)** y el **tiempo de bit**, así como la estructura de la trama serial, incluyendo:
+
+- Bit de inicio.
+- Bits de datos.
+- Bit de paridad.
+- Bits de parada.
+
+El análisis se realiza bajo distintas configuraciones de transmisión, permitiendo comparar los valores teóricos con las mediciones obtenidas experimentalmente mediante el osciloscopio.
+
+---
+
+## 🎯 Objetivos
+
+- Comprobar la relación entre el tiempo de bit y la tasa de transmisión de datos.
+- Analizar los detalles de la capa física del estándar RS232.
+- Analizar la estructura del protocolo de comunicación serial, identificando el bit de inicio, bits de datos, paridad y bits de parada.
+- Desarrollar habilidades de programación empleando **MicroPython**.
+
+---
+
+## 🔬 Metodología
+
+### 1. Configuración inicial
+
+Se configuró la **UART0** de la Raspberry Pi Pico 2W utilizando:
+
+- **TX:** Pin 1
+- **GND:** Pin 3
+
+La señal fue monitoreada mediante un **osciloscopio digital Tektronix**, utilizando el modo de disparo por flanco para facilitar la visualización de las tramas.
+
+### 2. Medición del tiempo de bit
+
+Se realizó un barrido de diferentes tasas de transmisión:
+
+| Baudios |
+|---:|
+| 1200 |
+| 4800 |
+| 9600 |
+| 38400 |
+| 57600 |
+| 115200 |
+
+Para cada configuración se transmitió el carácter **`Y`** y se midió experimentalmente el tiempo correspondiente a un bit.
+
+Posteriormente, los valores experimentales se compararon con el valor teórico:
+
+$$
+t_b = \frac{1}{B}
+$$
+
+donde:
+
+- $t_b$ = tiempo de bit.
+- $B$ = tasa de transmisión en baudios.
+
+### 3. Análisis de la trama
+
+Se transmitieron diferentes caracteres ASCII:
+
+```text
+?  $  B  v  -
