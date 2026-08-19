@@ -126,6 +126,7 @@ Adicionalmente, se capturó la señal correspondiente al mensaje:
 
 ```text
 UMNG LIDER EN INGENIERIA EN TELECOMUNCACIONES
+```
 
 
 ### Desarrollo
