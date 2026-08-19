@@ -1,1 +1,135 @@
+#Práctica 3 - Explorando la Comunicación RS232
 
+##Autores
+
+- Daniel Mateo Alegría Bernate
+- Miguel Ángel Plazas Llanes
+  
+Ingeniería de Telecomunicaciones  
+Universidad Militar Nueva Granada
+
+##  Explorando la Comunicación RS232 con Raspberry Pi Pico 2W
+
+Este repositorio contiene el desarrollo de la Práctica 3 de Comunicaciones Digitales de Ingeniería de Telecomunicaciones de la Universidad Militar Nueva Granada.
+
+En esta práctica se estudió experimentalmente la comunicación serial RS232 utilizando una Raspberry Pi Pico 2W, MicroPython y un osciloscopio digital Tektronix.
+
+Se analizó la relación entre la tasa de transmisión y el tiempo de bit, la estructura de las tramas seriales, el funcionamiento del bit de paridad y la duración de tramas de diferentes longitudes.
+
+---
+
+##  Objetivos
+
+### Objetivo general
+
+Analizar experimentalmente el funcionamiento de la comunicación serial RS232, verificando la relación entre la tasa de transmisión, el tiempo de bit y la estructura de las tramas mediante una Raspberry Pi Pico 2W.
+
+### Objetivos específicos
+
+- Comprobar la relación entre el tiempo de bit y la tasa de transmisión.
+- Analizar la estructura de una trama serial RS232.
+- Identificar los bits de inicio, datos, paridad y parada.
+- Comparar los valores teóricos con los valores experimentales.
+- Analizar el efecto del bit de paridad sobre la duración de una trama.
+- Desarrollar programas de comunicación serial utilizando MicroPython.
+
+---
+
+##  Parámetros de la práctica
+
+| Parámetro | Valor |
+|---|---|
+| Microcontrolador | Raspberry Pi Pico 2W |
+| Interfaz | UART0 |
+| Pin TX | Pin 1 |
+| Pin GND | Pin 3 |
+| Baudios analizados | 1200, 4800, 9600, 38400, 57600 y 115200 |
+| Carácter utilizado | `Y` |
+| Trama extendida | 60 caracteres |
+| Mensaje adicional | `UMNG LIDER EN INGENIERIA EN TELECOMUNCACIONES` |
+| Instrumento | Osciloscopio Tektronix |
+| Lenguaje | MicroPython |
+
+---
+
+##  Metodología
+
+### 1. Configuración de la comunicación
+
+Se configuró la UART0 de la Raspberry Pi Pico 2W para generar las señales seriales.
+
+La conexión utilizada fue:
+
+- **TX:** Pin 1.
+- **GND:** Pin 3.
+
+La señal fue conectada al osciloscopio digital Tektronix para observar y medir las características temporales de la transmisión.
+
+### 2. Medición del tiempo de bit
+
+Se transmitió el carácter `Y` utilizando diferentes tasas de transmisión:
+
+| Tasa de transmisión |
+|---:|
+| 1200 baudios |
+| 4800 baudios |
+| 9600 baudios |
+| 38400 baudios |
+| 57600 baudios |
+| 115200 baudios |
+
+El tiempo de bit teórico se calculó mediante:
+
+$$
+t_b = \frac{1}{B}
+$$
+
+donde $B$ corresponde a la tasa de transmisión en baudios.
+
+Los valores obtenidos experimentalmente fueron comparados con los valores teóricos mediante el error porcentual.
+
+### 3. Análisis de la trama
+
+Se transmitieron diferentes caracteres ASCII para identificar los elementos que conforman una trama serial.
+
+| Carácter | Decimal | Hexadecimal | Binario |
+|---|---:|---:|---|
+| `?` | 63 | `0x3F` | `00111111` |
+| `$` | 36 | `0x24` | `00100100` |
+| `B` | 66 | `0x42` | `01000010` |
+| `v` | 118 | `0x76` | `01110110` |
+| `-` | 45 | `0x2D` | `00101101` |
+| `U` | 85 | `0x55` | `01010101` |
+| `Y` | 89 | `0x59` | `01011001` |
+| `@` | 64 | `0x40` | `01000000` |
+
+A partir de las señales observadas se identificaron:
+
+- Bit de inicio.
+- Bits de datos.
+- Bit de paridad.
+- Bits de parada.
+
+### 4. Análisis de la paridad
+
+Se realizaron mediciones de tramas con y sin bit de paridad para determinar su efecto sobre la duración total de la transmisión.
+
+La incorporación del bit de paridad representa un tiempo de bit adicional dentro de la trama.
+
+También se verificó que la utilización de paridad par o impar no modifica la duración total, debido a que en ambos casos se transmite un único bit adicional.
+
+### 5. Medición de tramas extendidas
+
+Se transmitió una secuencia de 60 caracteres a **600 baudios**, realizando la medición con y sin bit de paridad.
+
+Adicionalmente, se capturó la señal correspondiente al mensaje:
+
+```text
+UMNG LIDER EN INGENIERIA EN TELECOMUNCACIONES
+
+
+### Desarrollo
+
+- [X] Codigos 
+- [X] Evidencias Fotográficas
+- [X] Informe
